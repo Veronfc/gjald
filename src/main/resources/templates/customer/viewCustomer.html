@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title th:text="|Customer: ${customer.name}|"></title>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+  </head>
+
+  <body>
+    <p th:text="|Customer ID: ${customer.id}|"></p>
+    <p th:text="|Customer name: ${customer.name}|"></p>
+    <p th:text="|Customer email: ${customer.email}|"></p>
+    <p th:text="|Customer phone: ${customer.phone}|"></p>
+    <p th:text="|Customer billing address: ${customer.billingAddress}|"></p>
+    <p th:text="|Customer created at: ${customer.createdAt}|"></p>
+  </body>
+</html>
