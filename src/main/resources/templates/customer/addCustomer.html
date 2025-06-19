@@ -6,6 +6,12 @@
   </head>
 
   <body>
+    <div th:if="${errors}">
+      <p th:if="${errors.hasFieldErrors('name')}" th:text="${errors.getFieldError('name').getDefaultMessage()}"></p>
+      <p th:if="${errors.hasFieldErrors('email')}" th:text="${errors.getFieldError('email').getDefaultMessage()}"></p>
+      <p th:if="${errors.hasFieldErrors('phone')}" th:text="${errors.getFieldError('phone').getDefaultMessage()}"></p>
+      <p th:if="${errors.hasFieldErrors('billingAddress')}" th:text="${errors.getFieldError('billingAddress').getDefaultMessage()}"></p>
+    </div>
     <form action="#" th:action="@{/customer}" th:object="${customer}" method="post">
       <label>
         Name:

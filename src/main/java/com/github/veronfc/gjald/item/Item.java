@@ -12,7 +12,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -30,11 +32,38 @@ import lombok.Setter;
 @Getter
 @EqualsAndHashCode
 public class Item {
-  @Id @GeneratedValue(strategy = GenerationType.AUTO) private Long id;
-  @NotBlank @NonNull @Setter private String name;
-  @Setter private String description; //optional
-  @NotBlank @NonNull @Setter private BigDecimal unitPrice;
-  @NotBlank @NonNull @Setter private String unitType; // ex. hours, units, boxes, etc.
-  @NotBlank @NonNull @Setter @Enumerated(EnumType.STRING) private Type type;
-  @CreationTimestamp LocalDateTime createdAt;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
+
+  @NotBlank
+  @Size(min = 1, max = 100, message = "Name must be between 1 and 100 characters long (inclusive).")
+  @NonNull
+  @Setter
+  private String name;
+
+  @Size(max = 255, message = "Description must be at most 255 characters long.")
+  @Setter
+  private String description; // optional
+
+  @NotBlank
+  @DecimalMin("0.00")
+  @NonNull
+  @Setter
+  private BigDecimal unitPrice;
+
+  @NotBlank
+  @Size(min = 1, max = 20, message = "Unit type must be between 1 and 20 characters long.")
+  @NonNull
+  @Setter
+  private String unitType; // ex. hours, units, boxes, etc.
+
+  @NotBlank
+  @NonNull
+  @Setter
+  @Enumerated(EnumType.STRING)
+  private Type type;
+
+  @CreationTimestamp
+  LocalDateTime createdAt;
 }

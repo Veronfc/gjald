@@ -12,10 +12,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -33,11 +35,34 @@ import lombok.Setter;
 @Getter
 @EqualsAndHashCode
 public class Customer {
-  @Id @GeneratedValue(strategy = GenerationType.AUTO) private Long id;
-  @NotBlank @NonNull @Setter private String name;
-  @Setter private String email;
-  @NotBlank @NonNull @Setter private String phone;
-  @NotBlank @NonNull @Setter private String billingAddress;
-  @CreationTimestamp LocalDateTime createdAt;
-  @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = false) private List<Invoice> invoices;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
+
+  @NotBlank
+  @Size(min = 1, max = 100, message = "Name must be between 1 and 100 characters long (inclusive).")
+  @NonNull
+  @Setter
+  private String name;
+
+  @Email
+  @Setter
+  private String email;
+
+  @NotNull
+  @Size(min = 10, max = 10, message = "Phone number must be exactly 10 digits long.")
+  @Setter
+  private String phone;
+
+  @NotBlank
+  @Size(min = 1, message = "Billing address must be at least 1 character long.")
+  @NonNull
+  @Setter
+  private String billingAddress;
+
+  @CreationTimestamp
+  LocalDateTime createdAt;
+
+  @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = false)
+  private List<Invoice> invoices;
 }

@@ -11,6 +11,6 @@
     <p th:text="|Customer email: ${customer.email}|"></p>
     <p th:text="|Customer phone: ${customer.phone}|"></p>
     <p th:text="|Customer billing address: ${customer.billingAddress}|"></p>
-    <p th:text="|Customer created at: ${customer.createdAt}|"></p>
+    <p th:text="|Customer created: ${#temporals.format(customer.createdAt, 'dd MMMM yyyy @ HH:mm')}|"></p>
   </body>
 </html>
