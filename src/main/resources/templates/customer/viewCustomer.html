@@ -12,5 +12,7 @@
     <p th:text="|Customer phone: ${customer.phone}|"></p>
     <p th:text="|Customer billing address: ${customer.billingAddress}|"></p>
     <p th:text="|Customer created: ${#temporals.format(customer.createdAt, 'dd MMMM yyyy @ HH:mm')}|"></p>
+    <a th:href="@{/customer/update(id=${customer.id})}">Update</a>
+    <!-- <a th:href="@{/customer/delete(id=${customer.id})}">Remove</a> -->
   </body>
 </html>

@@ -35,6 +35,7 @@ import lombok.Setter;
 public class LineItem {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
+  @Setter
   private Long id;
 
   @ManyToOne(optional = false)

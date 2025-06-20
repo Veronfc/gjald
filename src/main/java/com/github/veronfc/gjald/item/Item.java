@@ -35,6 +35,7 @@ import lombok.Setter;
 public class Item {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
+  @Setter
   private Long id;
 
   @Column(unique = true)

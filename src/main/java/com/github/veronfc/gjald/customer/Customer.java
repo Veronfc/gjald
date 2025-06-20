@@ -39,6 +39,7 @@ import lombok.Setter;
 public class Customer {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
+  @Setter
   private Long id;
 
   @Column(unique = true)

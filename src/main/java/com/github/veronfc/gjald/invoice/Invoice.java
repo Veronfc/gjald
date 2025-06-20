@@ -47,6 +47,7 @@ import lombok.Setter;
 public class Invoice {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
+  @Setter
   Long id;
 
   @ManyToOne(optional = true)
