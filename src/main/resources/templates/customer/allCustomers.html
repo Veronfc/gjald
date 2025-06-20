@@ -1,19 +1,31 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <title>Customers</title>
-    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
-  </head>
 
-  <body>
-    <div th:each="customer : ${customers}">
-      <p th:text="|Customer ID: ${customer.id}|"></p>
-      <p th:text="|Customer name: ${customer.name}|"></p>
-      <p th:text="|Customer email: ${customer.email}|"></p>
-      <p th:text="|Customer phone: ${customer.phone}|"></p>
-      <p th:text="|Customer billing address: ${customer.billingAddress}|"></p>
-      <p th:text="|Customer created: ${#temporals.format(customer.createdAt, 'dd MMMM yyyy @ HH:mm')}|"></p>
-      <hr>
-    </div>
-  </body>
+<head>
+  <title>Customers</title>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+</head>
+
+<body>
+  <div th:each="customer : ${customers}">
+    <p th:text="|ID: ${customer.id}|"></p>
+    <p th:text="|Name: ${customer.name}|"></p>
+    <p th:text="|Email address: ${customer.email}|"></p>
+    <p th:text="|Phone number: ${customer.phone}|"></p>
+    <p th:text="|Billing address: ${customer.billingAddress}|"></p>
+    <p th:text="|Created: ${#temporals.format(customer.createdAt, 'dd MMMM yyyy @ HH:mm')}|"></p>
+    <a th:href="@{/customer/update(id=${customer.id})}">Update</a>
+    <button th:onclick="confirmRemove([[${customer.id}]])">Remove</button>
+    <hr>
+  </div>
+
+  <script th:inline="javascript">
+    function confirmRemove(id) {
+      if (confirm(`Are you sure you want to remove customer with ID: ${id}`)) {
+        window.location.href = `/customer/delete?id=${id}`;
+      }
+    }
+  </script>
+</body>
+
 </html>

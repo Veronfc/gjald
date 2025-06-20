@@ -1,6 +1,5 @@
 package com.github.veronfc.gjald.customer;
 
-import org.postgresql.util.PSQLException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -99,5 +98,12 @@ class CustomerController {
 
       throw new ServerErrorException(ex.getMessage(), ex);
     }
+  }
+
+  @GetMapping("/delete")
+  public String deleteCustomer(@RequestParam Long id) {
+    db.deleteById(id);
+
+    return "redirect:/customer/all";
   }
 }
