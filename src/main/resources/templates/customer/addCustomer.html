@@ -3,34 +3,35 @@
   <head>
     <title>Add Customer</title>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <link th:href="@{/styles/customer.css}" rel="stylesheet"/>
   </head>
 
   <body>
-    <div th:if="${errors}">
-      <p th:if="${errors.hasFieldErrors('name')}" th:text="${errors.getFieldError('name').getDefaultMessage()}"></p>
-      <p th:if="${errors.hasFieldErrors('email')}" th:text="${errors.getFieldError('email').getDefaultMessage()}"></p>
-      <p th:if="${errors.hasFieldErrors('phone')}" th:text="${errors.getFieldError('phone').getDefaultMessage()}"></p>
-      <p th:if="${errors.hasFieldErrors('billingAddress')}" th:text="${errors.getFieldError('billingAddress').getDefaultMessage()}"></p>
+    <div class="form-container">
+      <form action="#" th:action="@{/customer/add}" th:object="${customer}" method="post" class="add-form">
+        <label>
+          Name:
+          <input type="text" th:field="*{name}" required/>
+          <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error"></p>
+        </label>
+        <label>
+          Email address:
+          <input type="email" th:field="*{email}"/>
+          <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error"></p>
+        </label>
+        <label>
+          Phone number:
+          <input type="text" th:field="*{phone}" required/>
+          <p th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" class="error"></p>
+        </label>
+        <label>
+          Billing address:
+          <input type="text" th:field="*{billingAddress}" required/>
+          <p th:if="${#fields.hasErrors('billingAddress')}" th:errors="*{billingAddress}" class="error"></p>
+        </label>
+        <button type="submit">Submit</button>
+        <button type="reset">Reset</button>
+      </form>
     </div>
-    <form action="#" th:action="@{/customer}" th:object="${customer}" method="post">
-      <label>
-        Name:
-        <input type="text" th:field="*{name}" required/>
-      </label>
-      <label>
-        Email address:
-        <input type="email" th:field="*{email}"/>
-      </label>
-      <label>
-        Phone number:
-        <input type="number" th:field="*{phone}" required/>
-      </label>
-      <label>
-        Billing address:
-        <input type="text" th:field="*{billingAddress}" required/>
-      </label>
-      <button type="submit">Submit</button>
-      <button type="reset">Reset</button>
-    </form>
   </body>
 </html>

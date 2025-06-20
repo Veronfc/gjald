@@ -1,0 +1,22 @@
+@import "main.css";
+
+.form-container {
+  height: 100svh;
+  width: 100svw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .add-form {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    border: 1px solid black;
+    border-radius: .5rem;
+    gap: .5rem;
+
+    .error {
+      color: red;
+    }
+  }
+}
