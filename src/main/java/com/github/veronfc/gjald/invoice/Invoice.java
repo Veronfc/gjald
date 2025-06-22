@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.github.veronfc.gjald.customer.Customer;
+import com.github.veronfc.gjald.lineitem.LineItem;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -26,7 +27,6 @@ import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -52,6 +52,7 @@ public class Invoice {
 
   @ManyToOne(optional = true)
   @JoinColumn(name = "customerId", nullable = true)
+  @Setter
   private Customer customer;
 
   @CreationTimestamp
@@ -75,6 +76,7 @@ public class Invoice {
   private String notes; // optional
 
   @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, orphanRemoval = true)
+  @Setter
   private List<LineItem> lineItems;
 
   @NotBlank

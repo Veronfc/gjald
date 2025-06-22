@@ -13,13 +13,9 @@ class CustomerService {
 
       if (exMessage.contains("customers_email_key")) {
         result.rejectValue("email", "duplicate", "Email address already exists.");
-      }
-
-      if (exMessage.contains("customers_phone_key")) {
+      } else if (exMessage.contains("customers_phone_key")) {
         result.rejectValue("phone", "duplicate", "Phone number already exists.");
-      }
-
-      if (exMessage.contains("customers_name_key")) {
+      } else if (exMessage.contains("customers_name_key")) {
         result.rejectValue("name", "duplicate", "Name already exists.");
       }
     }

@@ -5,9 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ServerErrorException;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -25,8 +25,8 @@ class CustomerController {
     this.service = service;
   }
 
-  @GetMapping()
-  public ModelAndView viewCustomer(@RequestParam(required = true) Long id) {
+  @GetMapping("/{id}")
+  public ModelAndView viewCustomer(@PathVariable Long id) {
     Customer customer = db.findById(id)
         .orElseThrow(() -> new EntityNotFoundException(String.format("Customer with ID %s does not exist", id)));
 
@@ -63,23 +63,23 @@ class CustomerController {
     }
   }
 
-  @GetMapping("/update")
-  public ModelAndView updateCustomerView(@RequestParam(required = true) Long id) {
+  @GetMapping("/{id}/update")
+  public ModelAndView updateCustomerView(@PathVariable Long id) {
     Customer customer = db.findById(id)
         .orElseThrow(() -> new EntityNotFoundException(String.format("Customer with ID %s does not exist", id)));
 
     return new ModelAndView("customer/updateCustomer", "customer", customer);
   }
 
-  @PostMapping("/update")
-  public String updateCustomer(@ModelAttribute @Valid Customer customer, BindingResult result) {
+  @PostMapping("/{id}/update")
+  public String updateCustomer(@PathVariable Long id, @ModelAttribute @Valid Customer customer, BindingResult result) {
     if (result.hasErrors()) {
       return "customer/updateCustomer";
     }
 
     try {
-      Customer updatedCustomer = db.findById(customer.getId())
-        .orElseThrow(() -> new EntityNotFoundException(String.format("Customer with ID %s does not exist", customer.getId())));
+      Customer updatedCustomer = db.findById(id)
+        .orElseThrow(() -> new EntityNotFoundException(String.format("Customer with ID %s does not exist", id)));
 
       updatedCustomer.setName(customer.getName());
       updatedCustomer.setEmail(customer.getEmail());
@@ -100,8 +100,8 @@ class CustomerController {
     }
   }
 
-  @GetMapping("/delete")
-  public String deleteCustomer(@RequestParam Long id) {
+  @GetMapping("/{id}/delete")
+  public String deleteCustomer(@PathVariable Long id) {
     db.deleteById(id);
 
     return "redirect:/customer/all";
