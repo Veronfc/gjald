@@ -3,6 +3,7 @@ package com.github.veronfc.gjald.customer;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,37 +27,37 @@ class CustomerController {
   }
 
   @GetMapping("/{id}")
-  public ModelAndView viewCustomer(@PathVariable Long id) {
+  public ModelAndView getCustomer(@PathVariable Long id) {
     Customer customer = db.findById(id)
         .orElseThrow(() -> new EntityNotFoundException(String.format("Customer with ID %s does not exist", id)));
 
-    return new ModelAndView("customer/viewCustomer", "customer", customer);
+    return new ModelAndView("customer/customer", "customer", customer);
   }
 
   @GetMapping("/all")
-  public ModelAndView allCustomers() {
+  public ModelAndView getAllCustomers() {
     return new ModelAndView("customer/allCustomers", "customers", db.findAll());
   }
 
   @GetMapping("/add")
   public ModelAndView addCustomerView() {
-    return new ModelAndView("customer/addCustomer", "customer", new Customer());
+    return new ModelAndView("customer/newCustomer", "customer", new Customer());
   }
 
   @PostMapping("/add")
   public String addCustomer(@ModelAttribute @Valid Customer customer, BindingResult result) {
     if (result.hasErrors()) {
-      return "customer/addCustomer";
+      return "customer/newCustomer";
     }
 
     try {
-      Customer newCustomer = db.save(customer);
-      return String.format("redirect:/customer?id=%s", newCustomer.getId());
+      Customer addedCustomer = db.save(customer);
+      return String.format("redirect:/customer/%s", addedCustomer.getId());
     } catch (Exception ex) {
       if (ex instanceof DataIntegrityViolationException divEx) {
         service.checkUniqueContraints(divEx, result);
 
-        return "customer/addCustomer";
+        return "customer/newCustomer";
       }
 
       throw new ServerErrorException("A server error has occurred", ex);
@@ -88,19 +89,19 @@ class CustomerController {
 
       db.save(updatedCustomer);
 
-      return String.format("redirect:/customer?id=%s", updatedCustomer.getId());
+      return String.format("redirect:/customer/%s", updatedCustomer.getId());
     } catch (Exception ex) {
       if (ex instanceof DataIntegrityViolationException divEx) {
         service.checkUniqueContraints(divEx, result);
 
-        return String.format("redirect:/customer/update?id=%s", customer.getId());
+        return String.format("redirect:/customer/%s/update", customer.getId());
       }
 
       throw new ServerErrorException(ex.getMessage(), ex);
     }
   }
 
-  @GetMapping("/{id}/delete")
+  @DeleteMapping("/{id}/delete")
   public String deleteCustomer(@PathVariable Long id) {
     db.deleteById(id);
 

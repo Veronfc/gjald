@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>Items</title>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+</head>
+
+<body>
+  <div th:each="item : ${items}">
+    <p th:text="|ID: ${item.id}|"></p>
+    <p th:text="|Name: ${item.name}|"></p>
+    <p th:text="|Description: ${item.description}|"></p>
+    <p th:text="|Unit price: ${item.unitPrice}|"></p>
+    <p th:text="|Unit type: ${item.unitType}|"></p>
+    <p th:text="|Type: ${item.type}|"></p>
+    <p th:text="|Created: ${#temporals.format(item.createdAt, 'dd MMMM yyyy @ HH:mm')}|"></p>
+    <a th:href="@{/item/${item.id}/update}">Update</a>
+    <button th:onclick="confirmRemove([[${item.id}]])">Remove</button>
+    <hr>
+  </div>
+
+  <script th:inline="javascript">
+    async function confirmRemove(id) {
+      if (confirm(`Are you sure you want to remove item with ID: ${id}`)) {
+        await fetch(`/item/${id}/delete`, {
+          method: DELETE 
+        })
+        
+        return;
+      }
+    }
+  </script>
+</body>
+
+</html>

@@ -20,9 +20,13 @@
   </div>
 
   <script th:inline="javascript">
-    function confirmRemove(id) {
+    async function confirmRemove(id) {
       if (confirm(`Are you sure you want to remove customer with ID: ${id}`)) {
-        window.location.href = `/customer/delete?id=${id}`;
+        await fetch(`/customer/${id}/delete`, {
+          method: DELETE 
+        })
+        
+        return;
       }
     }
   </script>

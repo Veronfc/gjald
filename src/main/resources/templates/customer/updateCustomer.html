@@ -8,7 +8,7 @@
 
   <body>
     <div class="form-container">
-      <form action="#" th:action="@{/customer/update}" th:object="${customer}" method="post" class="add-form">
+      <form action="#" th:action="@{/customer/${customer.id}/update}" th:object="${customer}" method="post" class="add-form">
         <input type="hidden" th:field="*{id}"/>
         <label>
           Name:
