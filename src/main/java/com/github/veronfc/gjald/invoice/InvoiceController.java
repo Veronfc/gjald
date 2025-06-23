@@ -33,14 +33,14 @@ class InvoiceController {
   }
 
   @GetMapping("/{id}")
-  public ModelAndView viewInvoice(@PathVariable Long id) {
+  public ModelAndView getInvoice(@PathVariable Long id) {
     Invoice invoice = db.findById(id).orElseThrow(() -> new EntityNotFoundException(String.format("Invoice with ID %s does not exist", id)));
 
-    return new ModelAndView("invoice/viewInvoice", "invoice", invoice);
+    return new ModelAndView("invoice/invoice", "invoice", invoice);
   }
 
   @GetMapping("/all")
-  public ModelAndView allInvoices() {
+  public ModelAndView getAllInvoices() {
     return new ModelAndView("invoice/allInvoices", "invoices", db.findAll());
   }
 
@@ -53,7 +53,7 @@ class InvoiceController {
     model.addAttribute("customerName", customer.getName());
     model.addAttribute("items", itemDb.findAll());
 
-    return "invoice/addInvoice";
+    return "invoice/newInvoice";
   }
  
   //TODO
@@ -67,7 +67,7 @@ class InvoiceController {
       // model.addAttribute("items", itemDb.findAll());
       // model.addAttribute("lineItems", new HashMap<String, Integer>());
     
-      return "invoice/addInvoice";
+      return "invoice/newInvoice";
     }
 
     try {
